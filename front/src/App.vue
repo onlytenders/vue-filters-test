@@ -6,6 +6,7 @@ import PropertyDetailModal from './components/PropertyDetailModal.vue';
 import type { Property } from './types.ts';
 
 const properties = ref<Property[]>([]);
+const isLoading = ref(true);
 const filters = ref({
   area: { min: null, max: null },
   rooms: { min: null, max: null },
@@ -24,6 +25,8 @@ onMounted(async () => {
     properties.value = await response.json();
   } catch (error) {
     console.error('Не удалось загрузить данные:', error);
+  } finally {
+    isLoading.value = false;
   }
 });
 
@@ -69,7 +72,10 @@ const handleModalClose = () => {
             <Filters @filter-change="handleFilterChange" />
           </a-col>
           <a-col :xs="24" :lg="18">
-            <PropertyList :properties="filteredProperties" @show-details="showPropertyDetails" />
+            <div v-if="isLoading" class="spinner-container">
+              <a-spin size="large" />
+            </div>
+            <PropertyList v-else :properties="filteredProperties" @show-details="showPropertyDetails" />
           </a-col>
         </a-row>
       </div>
@@ -114,5 +120,12 @@ const handleModalClose = () => {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
 }
 </style>
