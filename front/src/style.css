@@ -31,6 +31,8 @@ body {
   line-height: 1.5;
   /* 5. Improve text rendering */
   -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+  scroll-behavior: smooth;
 }
 
 /* 6. Improve media defaults */

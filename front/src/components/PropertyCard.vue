@@ -2,14 +2,16 @@
   <a-card hoverable @click="openModal">
     <template #cover>
       <div class="image-container">
-        <a-skeleton-image v-if="isImageLoading" class="skeleton-image" />
+        <div v-if="isImageLoading" class="spinner-container">
+          <a-spin />
+        </div>
         <img
           :alt="property.address"
           :src="property.image"
           style="width: 100%; max-height: 200px; object-fit: cover;"
           loading="lazy"
           @load="onImageLoad"
-          :style="{ display: isImageLoading ? 'none' : 'block' }"
+          :class="{ 'image-visible': !isImageLoading }"
         />
       </div>
     </template>
@@ -47,14 +49,25 @@ const openModal = () => {
 .image-container {
   height: 200px;
   position: relative;
+  background-color: #f0f2f5; /* Light grey background for the container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.skeleton-image {
+.spinner-container {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+}
+
+.image-container img {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  width: 100%; /* Ensure image fills the container */
+  height: 100%; /* Ensure image fills the container */
+}
+
+.image-container .image-visible {
+  opacity: 1;
 }
 
 :deep(.ant-skeleton-image) {
