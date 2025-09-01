@@ -16,7 +16,7 @@
 
 1.  **Клонируйте репозиторий:**
     ```bash
-    git clone <URL вашего репозитория>
+    git clone https://github.com/onlytenders/vue-filters-test
     cd vue-filters-test
     ```
 
